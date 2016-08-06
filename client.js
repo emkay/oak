@@ -1,39 +1,30 @@
+const level = require('level')
 const yo = require('yo-yo')
-const barracks = require('barracks')
+const mainView = require('./views/main')
+const store = require('./models')
+const view = mainView(store)
 
-const store = barracks()
+const db = level(__dirname + '/db')
+window.db = db
 
 store.use({
   onStateChange: (data, state, prev, caller, createSend) => {
-    yo.update(el, mainView(state));
-  }
-})
-
-store.model({
-  state: { title: 'Not quite set yet' },
-  reducers: {
-    update: (data, state) => ({ title: data })
+    yo.update(el, view.render(state))
   }
 })
 
 const createSend = store.start()
 const send = createSend('dispatcher', true)
 
-const oninput = (e) => {
-  send('update', e.target.value)
-}
+db.get('nodes', (err, data) => {
+  if (err) console.error(err)
 
-const mainView = (state) => {
-  return yo`
-  <main>
-    <h1>Title: ${state.title}</h1>
-    <input
-      type="text"
-      oninput=${oninput}>
-  </main>
-  `
-}
+  if (data) {
+    const nodes = JSON.parse(data)
+    send('nodes:update', nodes)
+    console.log(nodes)
+  }
+})
 
-const el = mainView(store.state())
-
+const el = view.render(store.state())
 document.body.appendChild(el)

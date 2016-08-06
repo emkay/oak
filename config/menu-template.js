@@ -12,10 +12,10 @@ const menuTemplate = [
     label: 'File',
     submenu: [
       {
-        label: 'New',
+        label: 'New'
       },
       {
-        label: 'Save',
+        label: 'Save'
       },
       {
         label: 'Quit',

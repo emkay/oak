@@ -1,10 +1,10 @@
 const {app, BrowserWindow, Menu} = require('electron')
-const menuTemplate = require('./menu-template')
+const menuTemplate = require('./config/menu-template')
 
 let win
 
 function createWindow () {
-  win = new BrowserWindow({width: 800, height: 600})
+  win = new BrowserWindow({width: 1200, height: 800})
   win.loadURL(`file://${__dirname}/index.html`)
   win.webContents.openDevTools()
 
