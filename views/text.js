@@ -21,6 +21,10 @@ function textView (store) {
     send('nodes:sync', nodes)
   }
 
+  const cancel = (e) => {
+    send('app:update', {currentId: null, page: 'main'})
+  }
+
   const oninput = (e) => {
     text.set(e.target.value)
   }
@@ -43,7 +47,7 @@ function textView (store) {
 
     const buttons = yo`
     <div class="form-actions">
-    <button type="submit" class="btn btn-form btn-default">Cancel</button>
+    <button type="submit" onclick=${cancel} class="btn btn-form btn-default">Cancel</button>
     <button type="submit" onclick=${save} class="btn btn-form btn-primary">Save</button>
     </div>
     `
